@@ -18,4 +18,12 @@ public class EmailExceptionController {
     public ResponseEntity<Object> emailNotValidException(EmailNotValidException exception) {
         return new ResponseEntity<>("Email Not Valid", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+    @ExceptionHandler(value = EmailConfirmedException.class)
+    public ResponseEntity<Object> emailConfirmed(EmailConfirmedException exception) {
+        return new ResponseEntity<>("Email already confirmed", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    @ExceptionHandler(value = EmailSendFailedException.class)
+    public ResponseEntity<Object> emailSendFailedException(EmailSendFailedException exception) {
+        return new ResponseEntity<>("Failed to send email", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

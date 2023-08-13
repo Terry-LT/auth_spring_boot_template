@@ -1,2 +1,4 @@
-package com.auth.auth.registration.exception.token;public class TokenExpiredException {
+package com.auth.auth.registration.exception.token;
+
+public class TokenExpiredException extends  IllegalStateException{
 }

@@ -1,5 +1,6 @@
 package com.auth.auth.email;
 
+import com.auth.auth.registration.exception.email.EmailSendFailedException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
@@ -33,8 +34,8 @@ public class EmailService implements EmailSender {
             mailSender.send(mimeMessage);
         }catch (MessagingException e){
             LOGGER.error("Failed to send email",e);
-            //TODO: Create custom exception
-            throw new IllegalStateException("Failed to send email");
+            //Throw Custom Email Send Exception
+            throw new EmailSendFailedException();
         }
     }
 }

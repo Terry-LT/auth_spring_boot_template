@@ -6,8 +6,10 @@ import com.auth.auth.appuser.AppUserService;
 import com.auth.auth.email.EmailSender;
 import com.auth.auth.email.EmailService;
 import com.auth.auth.registration.email.EmailValidator;
+import com.auth.auth.registration.exception.email.EmailConfirmedException;
 import com.auth.auth.registration.exception.email.EmailNotValidException;
 import com.auth.auth.registration.exception.email.EmailTakenException;
+import com.auth.auth.registration.exception.token.TokenExpiredException;
 import com.auth.auth.registration.token.ConfirmationToken;
 import com.auth.auth.registration.token.ConfirmationTokenService;
 import jakarta.transaction.Transactional;
@@ -52,15 +54,15 @@ public class RegistrationService {
         ConfirmationToken confirmationToken = confirmationTokenService.
                 getToken(token).orElseThrow(() -> new IllegalStateException("token not found"));
         if (confirmationToken.getConfirmedAt() != null) {
-            //TODO: Create custom exception
-            throw new IllegalStateException("email already confirmed");
+            //Throw Custom Confirmed Exception
+            throw new EmailConfirmedException();
         }
 
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
-            //TODO: Create custom exception
-            throw new IllegalStateException("token expired");
+            //Throw Custom Token Expired Exception
+            throw new TokenExpiredException();
         }
 
         confirmationTokenService.setConfirmedAt(token);
